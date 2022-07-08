@@ -8,8 +8,8 @@ class Match(db.Model):
     __table_args__={'mysql_engine':'InnoDB','mysql_auto_increment': '1'}
 
 
-    team = db.Column(db.String(),  db.ForeignKey('teams.team_name'), primary_key = True)
-    opponent = db.Column(db.String(),  db.ForeignKey('teams.team_name'), primary_key = True)
+    team = db.Column(db.String(50),  db.ForeignKey('teams.team_name'), primary_key = True)
+    opponent = db.Column(db.String(50),  db.ForeignKey('teams.team_name'), primary_key = True)
     round = db.Column(db.Integer(), primary_key = True)
     registration_date = db.Column(db.DateTime())
     current_points = db.Column(db.Integer())

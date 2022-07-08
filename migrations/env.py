@@ -4,20 +4,8 @@ import logging
 from logging.config import fileConfig
 
 from flask import current_app
-# from src.coursecycle.models.Class import Class
-from src.football_competition.models.Employee import Employee
-from src.football_competition.models.Administrator import Administrator
-from src.football_competition.models.Engineer import Engineer
-from src.football_competition.models.Course import Course
-from src.football_competition.models.Quiz import Quiz
-from src.football_competition.models.Lesson import Lesson
-from src.football_competition.models.CompletedLesson import CompletedLesson
-from src.football_competition.models.EnrolledClass import EnrolledClass
-from src.football_competition.models.Learner import Learner
-from src.football_competition.models.Trainer import Trainer
-from src.football_competition.models.Question import Question
-from src.football_competition.models.Team import Answer
-from src.football_competition.models.PrerequisiteCourse import PrerequisiteCourse
+from src.football_competition.models.Team import Team
+from src.football_competition.models.Match import Match
 
 from alembic import context
 

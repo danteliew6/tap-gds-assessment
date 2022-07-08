@@ -8,7 +8,7 @@ class Team(db.Model):
     __table_args__={'mysql_engine':'InnoDB'}
 
 
-    team_name = db.Column(db.String(), primary_key = True)
+    team_name = db.Column(db.String(50), primary_key = True)
     group = db.Column(db.Integer())
     registration_date = db.Column(db.DateTime())
     current_points = db.Column(db.Integer())
