@@ -5,6 +5,7 @@
 2. There are no restrictions to limit the number of teams that can be added although there is a fixed number of 12 teams.
 3. Matches between teams from different groups are not allowed and is strictly enforced in the application.
 4. All team and match inputs are assumed to be of correct format except for possible extra newline spaces.
+5. Inputs are solely for one competition only. To compute data for another competition, the data needs to be deleted by clicking the "Delete All Data" button first.
 
 ## Notes
 1. Since the application is still small, I decided to host both frontend and backend in the same deployed instance. However, for the purpose of scalability, I have designed the application architecture to follow the MVC framework while modularising the frontend and backend so as to loosen the coupling between the two.
