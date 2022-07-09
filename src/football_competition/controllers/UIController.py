@@ -8,7 +8,3 @@ class UIController():
     def team_rankings():
         return render_template('./team_rankings.html')
     
-    # def viewTeamRankings():
-    #     return render_template('./team-rankings.html')
-    
-    
