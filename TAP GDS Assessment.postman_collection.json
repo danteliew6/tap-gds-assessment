@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "9e5a31ce-923c-40d0-9123-3b4aaa3a3e79",
+		"name": "TAP GDS Assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Teams",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"teams\": [\"teamA 01/04 1\",\"teamB 02/05 1\", \"teamC 03/06 1\",\"teamD 04/06 1\",\"teamE 05/06 1\",\"teamF 15/06 1\",\"teamG 14/06 2\",\"teamH 13/06 2\",\"teamI 12/06 2\",\"teamJ 11/06 2\",\"teamK 10/06 2\",\"teamL 27/06 2\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/add-teams",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"add-teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Matches",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"matches\": [\"teamA teamB 0 1\",\"teamA teamC 1 3\"\r\n,\"teamA teamD 2 2\"\r\n,\"teamA teamE 2 4\"\r\n,\"teamA teamF 3 3\"\r\n,\"teamB teamC 0 1\"\r\n,\"teamB teamD 2 2\"\r\n,\"teamB teamE 4 0\"\r\n,\"teamB teamF 0 0\"\r\n,\"teamC teamD 2 0\"\r\n,\"teamC teamE 0 0\"\r\n,\"teamC teamF 1 0\"\r\n,\"teamD teamE 0 3\"\r\n,\"teamD teamF 2 1\"\r\n,\"teamE teamF 3 4\"\r\n,\"teamG teamH 3 2\"\r\n,\"teamG teamI 0 4\"\r\n,\"teamG teamJ 1 0\"\r\n,\"teamG teamK 1 4\"\r\n,\"teamG teamL 1 4\"\r\n,\"teamH teamI 2 0\"\r\n,\"teamH teamJ 3 0\"\r\n,\"teamH teamK 3 4\"\r\n,\"teamH teamL 0 1\"\r\n,\"teamI teamJ 2 1\"\r\n,\"teamI teamK 3 0\"\r\n,\"teamI teamL 1 3\"\r\n,\"teamJ teamK 1 4\"\r\n,\"teamJ teamL 0 3\"\r\n,\"teamK teamL 0 0\"\r\n]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/add-matches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"add-matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Team Rankings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/get-team-rankings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"get-team-rankings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Competition Data",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/delete-competition-data",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"delete-competition-data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
