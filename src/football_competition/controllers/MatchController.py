@@ -7,11 +7,11 @@ from sqlalchemy import not_, func
 from src.football_competition import db
 from datetime import datetime
 import json
+import functools
 
 class MatchController():
     def addTeams():
         try:
-            # data = request.get_json()
             data = request.get_json()
             teams = data['teams']
             for team in teams:
@@ -41,10 +41,12 @@ class MatchController():
             matches = data['matches']
             for match in matches:
                 match = match.split()
-                match_obj = Match(team = match[0], opponent = match[1], team_goals = match[2], opponent_goals = match[3]) 
-                team = Team.query.filter(Team.team_name == match[0]).first()
+                sorted_team_names = [match[0], match[1]]
+                sorted_team_names.sort()
+                match_obj = Match(team = sorted_team_names[0], opponent = sorted_team_names[1], team_goals = match[2], opponent_goals = match[3]) 
+                team = Team.query.filter(Team.team_name == match_obj.team).first()
                 team.total_goals += int(match[2])
-                opponent = Team.query.filter(Team.team_name == match[1]).first()
+                opponent = Team.query.filter(Team.team_name == match_obj.opponent).first()
                 opponent.total_goals += int(match[3])
                 
                 if team.group != opponent.group:
@@ -66,7 +68,6 @@ class MatchController():
                     
                 db.session.add(match_obj)
                 db.session.flush()
-            
             db.session.commit()
             return jsonify({
                 "data": {
@@ -78,35 +79,28 @@ class MatchController():
                 "message": str(e)
             }), 401
 
-    def sortTiedTeams(teamA, teamB):
-        if teamA.total_goals != teamB.total_goals:
-            return teamA.total_goals - teamB.total_goals
-        
-        teamA_points = teamA.wins * 5 + teamA.draws * 3 + teamA.losses
-        teamB_points = teamB.wins * 5 + teamB.draws * 3 + teamB.losses
-        if teamA_points != teamB_points:
-            return teamA_points - teamB_points
-        
-        return teamA.registration_date - teamB.registration_date
         
     def getTeamRankings():
-        def sortTiedTeams(teamA, teamB):
+        def compare(teamA, teamB):
+            if teamA.current_points != teamB.current_points:
+                return teamB.current_points - teamA.current_points
+            
             if teamA.total_goals != teamB.total_goals:
-                return teamA.total_goals - teamB.total_goals
+                return teamB.total_goals - teamA.total_goals
             
             teamA_points = teamA.wins * 5 + teamA.draws * 3 + teamA.losses
             teamB_points = teamB.wins * 5 + teamB.draws * 3 + teamB.losses
             if teamA_points != teamB_points:
-                return teamA_points - teamB_points
+                return teamB_points - teamA_points
             
-            return teamA.registration_date - teamB.registration_date
+            return teamB.registration_date - teamA.registration_date
         
         try:
-            teams = Team.query.order_by(Team.group.asc(), Team.current_points.desc()).all()
+            teams = Team.query.order_by(Team.group.asc()).all()
             group_1 = teams[:6]
-            group_1.sort(key=sortTiedTeams)
+            group_1 = sorted(group_1, key=functools.cmp_to_key(compare))
             group_2 = teams[6:]
-            group_2.sort(key=sortTiedTeams)
+            group_2 = sorted(group_2, key=functools.cmp_to_key(compare))
             return jsonify({
                 "data": {
                     "group_1": [team.to_dict() for team  in group_1],
@@ -118,4 +112,19 @@ class MatchController():
                 "message": str(e)
             }), 401
             
-    
+    def deleteCompetitionData():
+        try:
+            match_rows_deleted = Match.query.delete()
+            team_rows_deleted = Team.query.delete()
+            db.session.commit()
+            return jsonify({
+                "data": {
+                    "match_rows_deleted": match_rows_deleted,
+                    "team_rows_deleted": team_rows_deleted
+                }
+            }), 201
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({
+                "message": str(e)
+            }), 401
