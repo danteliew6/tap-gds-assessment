@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>We are the Champions</title>
+  </head>
+  <body>
+    <div style="margin:20px">
+      <h3>
+        Current Team Rankings:
+      </h3>
+      <br>
+      <table border='1' id="group1Table">
+        <tr>
+            <th colspan="10">
+                Group 1
+            </th>
+        </tr>
+        <tr>
+            <td>Position</td>
+            <td>Team Name</td>
+            <td>Group</td>
+            <td>Registration Date</td>
+            <td>Current Points</td>
+            <td>Total Goals Scored</td>
+            <td>Wins</td>
+            <td>Draws</td>
+            <td>Losses</td>
+            <td>Qualified for Next Round</td>
+        </tr>
+      </table>
+      <br>
+
+      <table border='1' id="group2Table">
+        <tr>
+            <th colspan="10">
+                Group 2
+            </th>
+        </tr>
+        <tr>
+            <td>Position</td>
+            <td>Team Name</td>
+            <td>Group</td>
+            <td>Registration Date</td>
+            <td>Current Points</td>
+            <td>Total Goals Scored</td>
+            <td>Wins</td>
+            <td>Draws</td>
+            <td>Losses</td>
+            <td>Qualified for Next Round</td>
+        </tr>
+      </table>
+
+      <br>
+      <input type = "button" value = "Back to Home" onclick="redirectToHome()"/>
+    </div>
+  </body>
+
+  <script>
+    window.onload = displayTeamRankings()
+
+    function displayTeamRankings() {
+        axios.get('/api/get-team-rankings')
+        .then(function(response) {
+            let group1Table = document.getElementById("group1Table");
+            let group2Table = document.getElementById("group2Table");
+            let group1Data = response.data.data.group_1;
+            let group2Data = response.data.data.group_2;
+            formatGroupTable(group1Table, group1Data);
+            formatGroupTable(group2Table, group2Data);
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    }
+
+    function formatGroupTable(groupTable, groupData) {
+        if (groupData.length == 0) {
+            groupTable.innerHTML = '';
+        } else {
+            for (i = 0; i < groupData.length; i++) {
+                groupTable.innerHTML += 
+                `<tr>
+                    <td>${i+1}</td>
+                    <td>${groupData[i].team_name}</td>
+                    <td>${groupData[i].group}</td>
+                    <td>${groupData[i].registration_date}</td> 
+                    <td>${groupData[i].current_points}</td>
+                    <td>${groupData[i].total_goals}</td>
+                    <td>${groupData[i].wins}</td>
+                    <td>${groupData[i].draws}</td>
+                    <td>${groupData[i].losses}</td>
+                    <td>${i < 4 ? "Qualified" : "Not Qualified"}</td>
+                </tr>`
+            }
+        }
+    }
+
+    function redirectToHome() {
+        window.location.href = "/";
+    }
+
+  </script>
+</html>

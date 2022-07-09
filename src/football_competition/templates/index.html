@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>We are the Champions</title>
+  </head>
+  <body>
+    <div style="margin:20px">
+      <h2>
+        GovTech Annual Football Competition Tracking System
+      </h2>
+      <br>
+      <h5>
+        Please enter the team details below and click "Add Teams".
+      </h5>
+      <textarea rows = "5" cols = "60" id = "teams" placeholder="Enter team details here..."></textarea>
+      <br>
+
+      <input type = "button" value = "Add Teams" onclick="addTeams()"/>
+      <br><br>
+      <h5>After adding the teams, please add the match details below here and click "Add Matches".</h5>
+      <textarea rows = "5" cols = "60" id = "matches" placeholder="Enter match details here..."></textarea>
+      <br>
+
+      <input type = "button" value = "Add Matches" onclick="addMatches()"/>
+      <br><br>
+      <span><b>If you wish to remove all the data, please click the button below.</b></span>
+      <br>
+      <input type = "button" value = "Delete All Data" onclick="deleteData()"/>
+
+      <br><br>
+      <span>Click the button below to view rankings.<br>
+      <b>Do note that you have to enter team details or there will be no table displayed.</b></span>
+      <br>
+      <input type = "button" value = "View Team Rankings" onclick="redirectToTeamRankings()"/>
+    </div>
+  </body>
+
+  <script>
+    config = {
+        headers: {
+            "Content-Type": "application/json"                    
+       }
+    }
+
+
+    function addTeams() {
+        let teams = document.getElementById("teams").value
+        if (teams == '') {
+            alert("Please enter team details!")
+        }
+        teams = teams.split(/\r?\n/);
+        let teamData = {
+            "teams": teams
+        }
+        JSON.stringify(teamData);
+        axios.post('/api/add-teams', teamData, config)
+            .then(function(response) {
+                alert("Teams have been successfully added!")
+            })
+            .catch(function(error) {
+                alert("Error adding teams. Please ensure syntax is correct or that there are no duplicates!")
+            })
+    }
+
+    function addMatches() {
+        let matches = document.getElementById("matches").value
+        if (matches == '') {
+            alert("Please enter match details!")
+        }
+        matches = matches.split(/\r?\n/);
+        let matchData = {
+            "matches": matches
+        }
+        JSON.stringify(matchData);
+        axios.post('/api/add-matches', matchData, config)
+            .then(function(response) {
+                alert("Matches have been successfully added!")
+            })
+            .catch(function(error) {
+                alert("Error adding matches. Please ensure syntax is correct or that there are no duplicates! Also, do note that entering the same pair in alternate positions(i.e. TeamA vs TeamB and TeamB vs TeamA) is not allowed as each pair can only battle once.")
+            })
+    }
+
+    function deleteData() {
+        axios.delete('/api/delete-competition-data')
+        .then(function(response) {
+            alert("Data has been cleared!")
+        })
+        .catch(function(error) {
+            alert("Error clearing data.")
+        })
+    }
+
+    function redirectToTeamRankings() {
+        window.location.href = "/team_rankings";
+    }
+  </script>
+</html>

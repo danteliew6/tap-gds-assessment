@@ -14,9 +14,11 @@ migrate.init_app(app, db, compare_type=True)
 # from .routes.course_bp import course_bp
 # from .routes.competition_bp import class_bp
 # from .routes.enrollment_bp import enrollment_bp
-from .routes.competition_bp import competition_bp
-app.register_blueprint(competition_bp, url_prefix='/')
-# app.register_blueprint(class_bp, url_prefix='/classes')
-# app.register_blueprint(enrollment_bp, url_prefix='/enrollment')
+from .routes.api_bp import api_bp
+app.register_blueprint(api_bp, url_prefix='/api')
+
+from .routes.ui_bp import ui_bp
+app.register_blueprint(ui_bp, url_prefix='/')
+
 # app.register_blueprint(lesson_bp, url_prefix='/lessons')
 

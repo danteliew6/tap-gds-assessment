@@ -15,6 +15,8 @@ class MatchController():
             data = request.get_json()
             teams = data['teams']
             for team in teams:
+                if team == '':
+                    continue
                 team = team.split()
                 team_name = team[0]
                 registration_date = datetime.strptime(team[1], '%d/%m')
@@ -33,20 +35,25 @@ class MatchController():
         except Exception as e:
             return jsonify({
                 "message": str(e)
-            }), 401
+            }), 400
 
     def addMatches():
         try:
             data = request.get_json()
             matches = data['matches']
             for match in matches:
+                if match == '':
+                    continue
                 match = match.split()
                 sorted_team_names = [match[0], match[1]]
                 sorted_team_names.sort()
                 match_obj = Match(team = sorted_team_names[0], opponent = sorted_team_names[1], team_goals = match[2], opponent_goals = match[3]) 
                 team = Team.query.filter(Team.team_name == match_obj.team).first()
-                team.total_goals += int(match[2])
                 opponent = Team.query.filter(Team.team_name == match_obj.opponent).first()
+                if team == None or opponent == None:
+                    raise Exception("Either one or both teams do not exist")
+                
+                team.total_goals += int(match[2])
                 opponent.total_goals += int(match[3])
                 
                 if team.group != opponent.group:
@@ -75,9 +82,10 @@ class MatchController():
                 }
             }), 201
         except Exception as e:
+            db.session.rollback()
             return jsonify({
                 "message": str(e)
-            }), 401
+            }), 400
 
         
     def getTeamRankings():
@@ -93,7 +101,12 @@ class MatchController():
             if teamA_points != teamB_points:
                 return teamB_points - teamA_points
             
-            return teamB.registration_date - teamA.registration_date
+            if teamA.registration_date.date() > teamB.registration_date.date():
+                return 1
+            elif teamA.registration_date.date() < teamB.registration_date.date():
+                return -1
+            
+            return 0
         
         try:
             teams = Team.query.order_by(Team.group.asc()).all()
@@ -106,11 +119,11 @@ class MatchController():
                     "group_1": [team.to_dict() for team  in group_1],
                     "group_2": [team.to_dict() for team  in group_2]
                 }
-            }), 201
+            }), 200
         except Exception as e:
             return jsonify({
                 "message": str(e)
-            }), 401
+            }), 400
             
     def deleteCompetitionData():
         try:
@@ -122,9 +135,9 @@ class MatchController():
                     "match_rows_deleted": match_rows_deleted,
                     "team_rows_deleted": team_rows_deleted
                 }
-            }), 201
+            }), 200
         except Exception as e:
             db.session.rollback()
             return jsonify({
                 "message": str(e)
-            }), 401
+            }), 400
