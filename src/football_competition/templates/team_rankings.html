@@ -14,54 +14,78 @@
     <title>We are the Champions</title>
   </head>
   <body>
-    <div style="margin:20px">
-      <h3>
-        Current Team Rankings:
-      </h3>
-      <br>
-      <table border='1' id="group1Table">
-        <tr>
-            <th colspan="10">
-                Group 1
-            </th>
-        </tr>
-        <tr>
-            <td>Position</td>
-            <td>Team Name</td>
-            <td>Group</td>
-            <td>Registration Date</td>
-            <td>Current Points</td>
-            <td>Total Goals Scored</td>
-            <td>Wins</td>
-            <td>Draws</td>
-            <td>Losses</td>
-            <td>Qualified for Next Round</td>
-        </tr>
-      </table>
-      <br>
+    <div  class = "container" style="margin:20px">
+      <div class = "row">
+        <div class= "col">
+          <h3>
+            Current Team Rankings:
+          </h3>
+        </div>
+      </div>
 
-      <table border='1' id="group2Table">
-        <tr>
-            <th colspan="10">
-                Group 2
-            </th>
-        </tr>
-        <tr>
-            <td>Position</td>
-            <td>Team Name</td>
-            <td>Group</td>
-            <td>Registration Date</td>
-            <td>Current Points</td>
-            <td>Total Goals Scored</td>
-            <td>Wins</td>
-            <td>Draws</td>
-            <td>Losses</td>
-            <td>Qualified for Next Round</td>
-        </tr>
-      </table>
+      <div class="row">
+        <div class="col">
+          <table class = "table table-striped table-bordered"id="group1Table">
+            <thead>
+              <tr>
+                <th colspan="10">
+                    Group 1
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <td>Position</td>
+                <td>Team Name</td>
+                <td>Group</td>
+                <td>Registration Date</td>
+                <td>Current Points</td>
+                <td>Total Goals Scored</td>
+                <td>Wins</td>
+                <td>Draws</td>
+                <td>Losses</td>
+                <td>Qualified for Next Round</td>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
 
-      <br>
-      <input type = "button" value = "Back to Home" onclick="redirectToHome()"/>
+      <div class="row">
+        <div class="col">
+          <table class = "table table-striped table-bordered" id="group2Table">
+            <thead>
+              <tr>
+                <th colspan="10">
+                    Group 1
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <td>Position</td>
+                <td>Team Name</td>
+                <td>Group</td>
+                <td>Registration Date</td>
+                <td>Current Points</td>
+                <td>Total Goals Scored</td>
+                <td>Wins</td>
+                <td>Draws</td>
+                <td>Losses</td>
+                <td>Qualified for Next Round</td>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button class =  "btn btn-primary" type = "button" onclick="redirectToHome()">Back to Home</button>      
+        </div>
+      </div>
     </div>
   </body>
 
@@ -87,8 +111,9 @@
         if (groupData.length == 0) {
             groupTable.innerHTML = '';
         } else {
+            groupTableBody = groupTable.getElementsByTagName("tbody")[0]
             for (i = 0; i < groupData.length; i++) {
-                groupTable.innerHTML += 
+                groupTableBody.innerHTML += 
                 `<tr>
                     <td>${i+1}</td>
                     <td>${groupData[i].team_name}</td>

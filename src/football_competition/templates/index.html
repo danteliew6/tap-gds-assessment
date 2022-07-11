@@ -14,34 +14,58 @@
     <title>We are the Champions</title>
   </head>
   <body>
-    <div style="margin:20px">
-      <h2>
-        GovTech Annual Football Competition Tracking System
-      </h2>
-      <br>
-      <h5>
-        Please enter the team details below and click "Add Teams".
-      </h5>
-      <textarea rows = "5" cols = "60" id = "teams" placeholder="Enter team details here..."></textarea>
-      <br>
-
-      <input type = "button" value = "Add Teams" onclick="addTeams()"/>
-      <br><br>
-      <h5>After adding the teams, please add the match details below here and click "Add Matches".</h5>
-      <textarea rows = "5" cols = "60" id = "matches" placeholder="Enter match details here..."></textarea>
-      <br>
-
-      <input type = "button" value = "Add Matches" onclick="addMatches()"/>
-      <br><br>
-      <span><b>If you wish to remove all the data, please click the button below.</b></span>
-      <br>
-      <input type = "button" value = "Delete All Data" onclick="deleteData()"/>
-
-      <br><br>
-      <span>Click the button below to view rankings.<br>
-      <b>Do note that you have to enter team details or there will be no table displayed.</b></span>
-      <br>
-      <input type = "button" value = "View Team Rankings" onclick="redirectToTeamRankings()"/>
+    <div class="container" style="margin:20px">
+        <div class="row">
+            <div class="col">
+                <h2>
+                    GovTech Annual Football Competition Tracking System
+                </h2>
+                <p>
+                    Instructions:
+                </p>
+                <ol>
+                    <li>
+                        Enter team details and click "Add Teams"
+                    </li>
+                    <li>
+                        Enter match details and click "Add Matches" 
+                    </li>
+                    <li>
+                        If you wish to clear all data entered, click on the "Delete All Data" button.
+                    </li>
+                    <li>
+                        To view team rankings, click <a href="/team_rankings">here</a>.
+                    </li>
+                </ol>
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col">
+                <p>
+                    Enter team details below.
+                </p>
+                <textarea rows = "5" cols = "60" id = "teams" placeholder="Enter team details here..."></textarea>
+                <br>
+                <button class = "btn btn-primary" onclick="addTeams()">Add Teams</button>
+                <br><br>
+                <p>Enter match details below.</p>
+                <textarea rows = "5" cols = "60" id = "matches" placeholder="Enter match details here..."></textarea>
+                <br>
+                <button class = "btn btn-primary" type = "button" onclick="addMatches()">Add Matches</button>
+            </div>  
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <br>
+                <span><b>If you wish to remove all the data, please click the button below.</b></span>
+                <br>
+                <button class = "btn btn-danger" type = "button" onclick="deleteData()">Delete All Data</button>
+          
+                <br><br>
+            </div>
+        </div>
     </div>
   </body>
 
@@ -57,6 +81,7 @@
         let teams = document.getElementById("teams").value
         if (teams == '') {
             alert("Please enter team details!")
+            return
         }
         teams = teams.split(/\r?\n/);
         let teamData = {
@@ -76,6 +101,7 @@
         let matches = document.getElementById("matches").value
         if (matches == '') {
             alert("Please enter match details!")
+            return
         }
         matches = matches.split(/\r?\n/);
         let matchData = {
@@ -101,8 +127,5 @@
         })
     }
 
-    function redirectToTeamRankings() {
-        window.location.href = "/team_rankings";
-    }
   </script>
 </html>
